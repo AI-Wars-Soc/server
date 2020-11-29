@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.7"
 services:
   submission-runner:
     image: aiwarssoc/submission-runner:latest
@@ -6,12 +6,11 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
       - "5000:5000"
-
-environment:
-  SANDBOX_PYPY_HEAPSIZE: 100
-  SANDBOX_PYPY_TIMEOUT: 100
-  SANDBOX_API_DEBUG: True
-  SANDBOX_API_TIMEOUT: 100
-  SANDBOX_CPU_RT_RUNTIME_MICROSECONDS: 100
-  SANDBOX_MEM_LIMIT: 100m
-  SANDBOX_NANO_CPUS: 1000
+    environment:
+      SANDBOX_PYPY_HEAPSIZE: 100
+      SANDBOX_PYPY_TIMEOUT: 100
+      SANDBOX_API_DEBUG: "True"
+      SANDBOX_API_TIMEOUT: 100
+      SANDBOX_CPU_RT_RUNTIME_MICROSECONDS: 100
+      SANDBOX_MEM_LIMIT: 100m
+      SANDBOX_NANO_CPUS: 1000
