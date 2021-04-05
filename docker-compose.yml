@@ -51,12 +51,12 @@ services:
     ports:
       - "8090:8080"
     volumes:
-      - "../front-end/server:/home/web_user/server"
       - "repositories:/repositories"
     networks:
       - redis
       - database
     environment:
+      DEBUG: "True"
       SERVER_NAME: "cuwais.joeoc.dev"
       CLIENT_ID: "389788965612-qh4j3n7fh14nfjbg7u1tmlb59mudmobj.apps.googleusercontent.com"
       DATABASE_CONNECTION: "postgresql://release:release@database"
