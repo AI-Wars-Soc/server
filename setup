@@ -1,1 +1,2 @@
-head -c 2048 </dev/urandom >secret.txt
+touch ./secret.txt
+base64 /dev/urandom | head -c 2048 > ./secret.txt

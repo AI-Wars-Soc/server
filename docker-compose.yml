@@ -21,6 +21,8 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "repositories:/repositories"
+      - "submission-runner-data:/var/submission_runner_home"
+      - "submission-runner-docker-certs:/certs/client:ro"
     networks:
       - database
       - submission-runner
@@ -69,7 +71,7 @@ services:
   redis:
     image: redis
     volumes:
-      - "./tmp/redis:/data"
+      - "redis-data:/data"
     command: "--appendonly yes"
     networks:
       redis:
@@ -78,6 +80,8 @@ services:
     restart: unless-stopped
   database:
     image: postgres
+    volumes:
+      - "database-data:/var/lib/postgresql/data"
     networks:
       database:
         aliases:
@@ -105,6 +109,8 @@ secrets:
     file: ./secret.txt
 volumes:
   repositories:
+  redis-data:
+  database-data:
   submission-runner-docker-certs:
   submission-runner-data:
   submission-runner-dind-data:
