@@ -1,16 +1,110 @@
 version: "3.7"
 services:
+  submission-runner-docker:
+    image: docker:dind
+    privileged: true
+    expose:
+      - "2376"
+    volumes:
+      - "submission-runner-docker-certs:/certs/client"
+      - "submission-runner-data:/var/submission_runner_home"
+      - "submission-runner-dind-data:/var/lib/docker"
+    networks:
+      submission-runner:
+        aliases:
+          - docker
+    environment:
+      - "DOCKER_TLS_CERTDIR=/certs"
+    restart: unless-stopped
   submission-runner:
-    image: aiwarssoc/submission-runner:latest
+    image: aiwarssoc/submission-runner
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-    ports:
-      - "5000:5000"
+      - "repositories:/repositories"
+    networks:
+      - database
+      - submission-runner
     environment:
-      SANDBOX_PYPY_HEAPSIZE: 100
-      SANDBOX_PYPY_TIMEOUT: 100
-      SANDBOX_API_DEBUG: "True"
-      SANDBOX_API_TIMEOUT: 100
-      SANDBOX_CPU_RT_RUNTIME_MICROSECONDS: 100
-      SANDBOX_MEM_LIMIT: 100m
-      SANDBOX_NANO_CPUS: 1000
+      DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_CERT_PATH: "/certs/client"
+      DOCKER_TLS_VERIFY: 1
+      SANDBOX_COMMAND_TIMEOUT: 25s
+      SANDBOX_CONTAINER_TIMEOUT: 25s
+      SANDBOX_PARSER_TIMEOUT: 20
+      SANDBOX_MEM_LIMIT: 256m
+      SANDBOX_CPU_COUNT: 0.5
+      DATABASE_CONNECTION: "postgresql://release:release@database"
+      SCORE_TURBULENCE_MILLIS: 2000
+      INITIAL_SCORE: 1000
+      GAMEMODE: chess
+      MATCHMAKERS: 10
+      GAME_OPTIONS: '{"chess960": true}'
+      SECONDS_PER_RUN: 20
+    depends_on:
+      - database
+      - submission-runner-docker
+    restart: unless-stopped
+  web-server:
+    image: aiwarssoc/front-end
+    ports:
+      - "8090:8080"
+    volumes:
+      - "../front-end/server:/home/web_user/server"
+      - "repositories:/repositories"
+    networks:
+      - redis
+      - database
+    environment:
+      SERVER_NAME: "cuwais.joeoc.dev"
+      CLIENT_ID: "389788965612-qh4j3n7fh14nfjbg7u1tmlb59mudmobj.apps.googleusercontent.com"
+      DATABASE_CONNECTION: "postgresql://release:release@database"
+      MAX_REPO_SIZE_BYTES: 10000000
+      INITIAL_SCORE: 1000
+    secrets:
+      - secret_key
+    depends_on:
+      - database
+      - redis
+    restart: unless-stopped
+  redis:
+    image: redis
+    volumes:
+      - "./tmp/redis:/data"
+    command: "--appendonly yes"
+    networks:
+      redis:
+        aliases:
+          - redis
+    restart: unless-stopped
+  database:
+    image: postgres
+    networks:
+      database:
+        aliases:
+          - database
+    environment:
+      POSTGRES_USER: release
+      POSTGRES_PASSWORD: release
+    restart: unless-stopped
+  adminer:
+    image: adminer
+    ports:
+      - 8091:8080
+    networks:
+      - database
+    depends_on:
+      - database
+    restart: unless-stopped
+
+networks:
+  redis:
+  database:
+  submission-runner:
+secrets:
+  secret_key:
+    file: ./secret.txt
+volumes:
+  repositories:
+  submission-runner-docker-certs:
+  submission-runner-data:
+  submission-runner-dind-data:
