@@ -37,7 +37,7 @@ services:
       SANDBOX_MEM_LIMIT: 256m
       SANDBOX_CPU_COUNT: 0.5
       DATABASE_CONNECTION: "postgresql://release:release@database"
-      SCORE_TURBULENCE_MILLIS: 2000
+      SCORE_TURBULENCE_MILLIS: 100
       INITIAL_SCORE: 1000
       GAMEMODE: chess
       MATCHMAKERS: 10
