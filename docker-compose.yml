@@ -7,7 +7,6 @@ services:
       - "2376"
     volumes:
       - "submission-runner-docker-certs:/certs/client"
-      - "submission-runner-data:/var/submission_runner_home"
       - "submission-runner-dind-data:/var/lib/docker"
     networks:
       submission-runner:
@@ -20,9 +19,7 @@ services:
   submission-runner:
     image: aiwarssoc/submission-runner
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
       - "repositories:/repositories"
-      - "submission-runner-data:/var/submission_runner_home"
       - "submission-runner-docker-certs:/certs/client:ro"
     networks:
       - database
@@ -58,7 +55,6 @@ services:
       - redis
       - database
     environment:
-      DEBUG: "True"
       SERVER_NAME: "cuwais.joeoc.dev"
       CLIENT_ID: "389788965612-qh4j3n7fh14nfjbg7u1tmlb59mudmobj.apps.googleusercontent.com"
       DATABASE_CONNECTION: "postgresql://release:release@database"
@@ -115,5 +111,4 @@ volumes:
   redis-data:
   database-data:
   submission-runner-docker-certs:
-  submission-runner-data:
   submission-runner-dind-data:
