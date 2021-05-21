@@ -21,6 +21,7 @@ services:
     volumes:
       - "repositories:/repositories"
       - "submission-runner-docker-certs:/certs/client:ro"
+      - "./config.yml:/home/subrunner/runner/config.yml:ro"
     networks:
       - database
       - submission-runner
@@ -28,18 +29,6 @@ services:
       DOCKER_HOST: "tcp://docker:2376"
       DOCKER_CERT_PATH: "/certs/client"
       DOCKER_TLS_VERIFY: 1
-      SANDBOX_COMMAND_TIMEOUT: 25s
-      SANDBOX_CONTAINER_TIMEOUT: 25s
-      SANDBOX_PARSER_TIMEOUT: 20
-      SANDBOX_MEM_LIMIT: 256m
-      SANDBOX_CPU_COUNT: 0.5
-      DATABASE_CONNECTION: "postgresql://release:release@database"
-      SCORE_TURBULENCE_MILLIS: 100
-      INITIAL_SCORE: 1000
-      GAMEMODE: chess
-      MATCHMAKERS: 10
-      GAME_OPTIONS: '{"chess960": true}'
-      SECONDS_PER_RUN: 20
     depends_on:
       - database
       - submission-runner-docker
@@ -51,15 +40,10 @@ services:
       - "8090:8080"
     volumes:
       - "repositories:/repositories"
+      - "./debug_config.yml:/home/web_user/server/config.yml:ro"
     networks:
       - redis
       - database
-    environment:
-      SERVER_NAME: "cuwais.joeoc.dev"
-      CLIENT_ID: "389788965612-qh4j3n7fh14nfjbg7u1tmlb59mudmobj.apps.googleusercontent.com"
-      DATABASE_CONNECTION: "postgresql://release:release@database"
-      MAX_REPO_SIZE_BYTES: 10000000
-      INITIAL_SCORE: 1000
     secrets:
       - secret_key
     depends_on:
