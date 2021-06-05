@@ -3,8 +3,6 @@ services:
   submission-runner-docker:
     image: docker:dind
     privileged: true
-    expose:
-      - "2376"
     volumes:
       - "submission-runner-docker-certs:/certs/client"
       - "submission-runner-dind-data:/var/lib/docker"
@@ -40,7 +38,7 @@ services:
       - "8090:8080"
     volumes:
       - "repositories:/repositories"
-      - "./debug_config.yml:/home/web_user/server/config.yml:ro"
+      - "./config.yml:/home/web_user/server/config.yml:ro"
     networks:
       - redis
       - database
