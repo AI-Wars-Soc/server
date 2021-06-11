@@ -10,8 +10,8 @@ services:
       - "./config.yml:/home/web_user/config.yml:ro"
   database:
     environment:
-      POSTGRES_USER: debug
-      POSTGRES_PASSWORD: debug
+      POSTGRES_USER: release
+      POSTGRES_PASSWORD: release
   adminer:
     ports:
       - 8091:8080
