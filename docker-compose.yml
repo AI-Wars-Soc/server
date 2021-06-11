@@ -17,9 +17,8 @@ services:
   submission-runner:
     image: aiwarssoc/submission-runner
     volumes:
-      - "repositories:/repositories"
+      - "repositories:/home/subrunner/repositories"
       - "submission-runner-docker-certs:/certs/client:ro"
-      - "./config.yml:/home/subrunner/runner/config.yml:ro"
     networks:
       - database
       - submission-runner
@@ -34,11 +33,8 @@ services:
     init: true
   web-server:
     image: aiwarssoc/front-end
-    ports:
-      - "8090:8080"
     volumes:
-      - "repositories:/repositories"
-      - "./config.yml:/home/web_user/server/config.yml:ro"
+      - "repositories:/home/web_user/repositories"
     networks:
       - redis
       - database
@@ -66,15 +62,9 @@ services:
       database:
         aliases:
           - database
-    environment:
-      POSTGRES_USER: release
-      POSTGRES_PASSWORD: release
     restart: unless-stopped
-    init: true
   adminer:
     image: adminer
-    ports:
-      - 8091:8080
     networks:
       - database
     depends_on:

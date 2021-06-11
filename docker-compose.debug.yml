@@ -1,0 +1,26 @@
+services:
+  submission-runner:
+    build: ../submission-runner
+    image: aiwarssoc/submission-runner:debug
+    volumes:
+      - "../submission-runner/runner:/home/subrunner/runner"
+      - "../submission-runner/sandbox:/home/subrunner/sandbox"
+      - "../submission-runner/shared:/home/subrunner/shared"
+      - "./debug_config.yml:/home/subrunner/config.yml:ro"
+    ports:
+      - "5000:8080"
+  web-server:
+    build: ../front-end
+    image: aiwarssoc/front-end:debug
+    ports:
+      - "80:8080"
+    volumes:
+      - "../front-end/server:/home/web_user/server"
+      - "./debug_config.yml:/home/web_user/config.yml:ro"
+  database:
+    environment:
+      POSTGRES_USER: debug
+      POSTGRES_PASSWORD: debug
+  adminer:
+    ports:
+      - 8080:8080
