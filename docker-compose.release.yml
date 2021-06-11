@@ -1,3 +1,4 @@
+version: "3.7"
 services:
   submission-runner:
       - "./config.yml:/home/subrunner/config.yml:ro"
