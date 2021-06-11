@@ -1,10 +1,11 @@
 version: "3.7"
 services:
   submission-runner:
+    volumes:
       - "./config.yml:/home/subrunner/config.yml:ro"
   web-server:
     ports:
-      - "80:8080"
+      - "8090:8080"
     volumes:
       - "./config.yml:/home/web_user/config.yml:ro"
   database:
@@ -13,4 +14,4 @@ services:
       POSTGRES_PASSWORD: debug
   adminer:
     ports:
-      - 8080:8080
+      - 8091:8080
