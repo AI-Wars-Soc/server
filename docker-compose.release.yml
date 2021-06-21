@@ -6,6 +6,13 @@ services:
   web-server:
     ports:
       - "8090:8080"
+  matchmaker:
+    volumes:
+      - "./config.yml:/home/matchmaker/config.yml:ro"
+  web-api:
+    volumes:
+      - "./config.yml:/home/web_user/config.yml:ro"
+  web-app:
     volumes:
       - "./config.yml:/home/web_user/config.yml:ro"
   database:

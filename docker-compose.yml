@@ -20,30 +20,61 @@ services:
       - "repositories:/home/subrunner/repositories"
       - "submission-runner-docker-certs:/certs/client:ro"
     networks:
-      - database
-      - submission-runner
+      submission-runner:
+        aliases:
+          - runner
+    secrets:
+      - secret_key
     environment:
       DOCKER_HOST: "tcp://docker:2376"
       DOCKER_CERT_PATH: "/certs/client"
       DOCKER_TLS_VERIFY: 1
     depends_on:
-      - database
       - submission-runner-docker
     restart: unless-stopped
     init: true
+  matchmaker:
+    image: aiwarssoc/matchmaker
+    networks:
+      submission-runner:
+      database:
+    depends_on:
+      - submission-runner
+      - database
+    restart: unless-stopped
+    init: true
   web-server:
-    image: aiwarssoc/front-end
+    image: aiwarssoc/web-server
+    networks:
+      web-api:
+      web-app:
+    restart: unless-stopped
+    init: true
+  web-app:
+    image: aiwarssoc/web-app
+    networks:
+      web-app:
+        aliases:
+          - web-app
+    restart: unless-stopped
+    init: true
+  web-api:
+    image: aiwarssoc/web-api
     volumes:
       - "repositories:/home/web_user/repositories"
     networks:
-      - redis
-      - database
+      redis:
+      database:
+      web-api:
+        aliases:
+          - web-api
     secrets:
       - secret_key
     depends_on:
       - database
       - redis
     restart: unless-stopped
+    init: true
   redis:
     image: redis
     volumes:
@@ -63,6 +94,7 @@ services:
         aliases:
           - database
     restart: unless-stopped
+    init: true
   adminer:
     image: adminer
     networks:
@@ -70,11 +102,14 @@ services:
     depends_on:
       - database
     restart: unless-stopped
+    init: true
 
 networks:
   redis:
   database:
   submission-runner:
+  web-api:
+  web-app:
 secrets:
   secret_key:
     file: ./secret.txt

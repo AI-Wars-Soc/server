@@ -1,1 +1,2 @@
-docker-compose -f docker-compose.yml -f docker-compose.release.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose.release.yml pull \
+&& docker-compose -f docker-compose.yml -f docker-compose.release.yml up -d

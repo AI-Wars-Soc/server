@@ -4,7 +4,11 @@ profile: true
 soc_name: "cuwais"
 google_client_id: "389788965612-3hlb0b2lqamt2v7jupphcggnk0t9sol9.apps.googleusercontent.com"
 allowed_email_domain: "cam.ac.uk"
+gamemode:
+  id: chess
+  options:
+    chess960: true
 front_end:
   server_name: "lvh.me"
-submission_runner:
-  matchmakers: 2
+matchmaker:
+  matchmakers: 1
