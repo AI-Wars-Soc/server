@@ -5,7 +5,7 @@ services:
       - "./config.yml:/home/subrunner/config.yml:ro"
   web-server:
     ports:
-      - "8090:8080"
+      - "8090:80"
   matchmaker:
     volumes:
       - "./config.yml:/home/matchmaker/config.yml:ro"

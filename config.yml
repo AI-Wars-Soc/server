@@ -1,12 +1,14 @@
 db_connection: "postgresql://release:release@database"
 soc_name: "cuwais"
 google_client_id: "389788965612-qh4j3n7fh14nfjbg7u1tmlb59mudmobj.apps.googleusercontent.com"
+debug: true
+profile: true
 allowed_email_domain: "cam.ac.uk"
-front_end:
-  server_name: "cuwais.joeoc.dev"
-submission_runner:
-  matchmakers: 2
 gamemode:
   id: chess
   options:
     chess960: true
+front_end:
+  server_name: "cuwais.joeoc.dev"
+matchmaker:
+  matchmakers: 1
