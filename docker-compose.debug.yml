@@ -1,43 +1,44 @@
 version: "3.7"
 services:
   submission-runner:
-    build: ../submission-runner
+    build: ./submission-runner
     image: aiwarssoc/submission-runner:debug
     volumes:
-      - "../submission-runner/runner:/home/subrunner/runner"
-      - "../submission-runner/sandbox:/home/subrunner/sandbox"
-      - "../submission-runner/shared:/home/subrunner/shared"
+      - "./submission-runner/runner:/home/subrunner/runner"
+      - "./submission-runner/sandbox:/home/subrunner/sandbox"
+      - "./submission-runner/shared:/home/subrunner/shared"
       - "./debug_config.yml:/home/subrunner/config.yml:ro"
     ports:
       - "8082:8080"
   matchmaker:
-    build: ../matchmaker
+    build: ./matchmaker
     image: aiwarssoc/matchmaker:debug
     volumes:
-      - "../matchmaker/app:/home/matchmaker/app"
+      - "./matchmaker/app:/home/matchmaker/app"
       - "./debug_config.yml:/home/matchmaker/config.yml:ro"
   web-server:
-    build: ../web-server
+    build: ./web-server
     image: aiwarssoc/web-server:debug
     ports:
       - "80:80"
     volumes:
-      - "../web-server/serve:/usr/share/nginx/html"
+      - "./web-server/serve:/usr/share/nginx/html"
   web-app:
-    build: ../web-app
+    build: web-app
     image: aiwarssoc/web-app:debug
     ports:
       - "8080:8080"
     volumes:
-      - "../web-app/app:/home/web_user/app"
+      - "./web-app/app:/home/web_user/app"
+      - "./web-app/app/dist:/usr/share/nginx/html:ro"
       - "./debug_config.yml:/home/web_user/config.yml:ro"
   web-api:
-    build: ../web-api
+    build: ./web-api
     image: aiwarssoc/web-api:debug
     ports:
       - "8081:8080"
     volumes:
-      - "../web-api/app:/home/web_user/app"
+      - "./web-api/app:/home/web_user/app"
       - "./debug_config.yml:/home/web_user/config.yml:ro"
   database:
     environment:
