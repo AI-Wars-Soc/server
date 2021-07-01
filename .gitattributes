@@ -1,0 +1,6 @@
+run text eol=lf
+run-debug text eol=lf
+setup text eol=lf
+setup-debug text eol=lf
+
+*.yml text eol=lf

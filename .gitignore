@@ -1,4 +1,9 @@
 secret.txt
+matchmaker
+submission-runner
+web-api
+web-app
+web-server
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
