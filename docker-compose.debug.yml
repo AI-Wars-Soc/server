@@ -29,9 +29,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "./web-app/app:/home/web_user/app"
       - "./web-app/app/dist:/usr/share/nginx/html:ro"
-      - "./debug_config.yml:/home/web_user/config.yml:ro"
   web-api:
     build: ./web-api
     image: aiwarssoc/web-api:debug
