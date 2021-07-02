@@ -4,3 +4,4 @@ setup text eol=lf
 setup-debug text eol=lf
 
 *.yml text eol=lf
+*.sh text eol=lf
