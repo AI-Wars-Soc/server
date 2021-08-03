@@ -66,12 +66,14 @@ services:
     networks:
       redis:
       database:
+      submission-runner:
       web-api:
         aliases:
           - web-api
     secrets:
       - secret_key
     depends_on:
+      - submission-runner
       - database
       - redis
     restart: unless-stopped
