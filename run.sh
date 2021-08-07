@@ -6,10 +6,10 @@ cd "$SCRIPT_DIR" || exit
 
 debug='false'
 pull='false'
-while getopts 'ds' flag; do
+while getopts 'dp' flag; do
     case "${flag}" in
         d) debug='true';;
-		s) pull='true';;
+		p) pull='true';;
 		*) printf '\nUsage: %s: [-d]ebug [-p]ull\n' "$0"; exit 2 ;;
     esac
 done
