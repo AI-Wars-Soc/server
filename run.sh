@@ -6,11 +6,13 @@ cd "$SCRIPT_DIR" || exit
 
 debug='false'
 pull='false'
-while getopts 'dp' flag; do
+reload='false'
+while getopts 'dprs' flag; do
     case "${flag}" in
         d) debug='true';;
 		p) pull='true';;
-		*) printf '\nUsage: %s: [-d]ebug [-p]ull\n' "$0"; exit 2 ;;
+		r) reload='true';;
+		*) printf '\nUsage: %s: [-d]ebug [-p]ull [-r]eload\n' "$0"; exit 2 ;;
     esac
 done
 
@@ -20,11 +22,17 @@ then
 	base64 /dev/urandom | head -c 8192 > ./secret.txt
 fi
 
+if [ ! -f ./config.yml ]
+then
+    wget https://raw.githubusercontent.com/AI-Wars-Soc/common/main/default_config.yml
+	mv -f ./default_config.yml ./config.yml
+fi
+
 if $debug
 then
 	docker_file_attr='debug'
 	
-	repos=( "matchmaker" "web-api" "web-app" "web-server" "submission-runner" )
+	repos=( "matchmaker" "web-api" "web-app" "web-server" "submission-runner" "common" "sandbox" "chess-ai" )
 	for n in "${repos[@]}"
 	do
 		if [ ! -d ./"$n" ]
@@ -33,7 +41,7 @@ then
 		fi
 	done
 
-	(cd "$SCRIPT_DIR/web-app" || exit; pwd; ./build-debug.sh)
+	(cd "$SCRIPT_DIR/web-app" || exit; ./build-debug.sh)
 	
 	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" build
 else
@@ -45,4 +53,9 @@ then
 	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" pull
 fi
 
-docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" up -d
+if $reload
+then
+	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" restart
+else
+	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" up -d
+fi

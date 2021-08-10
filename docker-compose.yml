@@ -19,6 +19,7 @@ services:
     volumes:
       - "repositories:/home/subrunner/repositories"
       - "submission-runner-docker-certs:/certs/client:ro"
+      - "./config.yml:/home/subrunner/config.yml:ro"
     networks:
       submission-runner:
         aliases:
@@ -36,6 +37,8 @@ services:
     init: true
   matchmaker:
     image: aiwarssoc/matchmaker
+    volumes:
+      - "./config.yml:/home/matchmaker/config.yml:ro"
     networks:
       submission-runner:
       database:
@@ -49,6 +52,8 @@ services:
     networks:
       web-api:
       web-app:
+    ports:
+      - 80:80
     restart: unless-stopped
     init: true
   web-app:
@@ -63,6 +68,7 @@ services:
     image: aiwarssoc/web-api
     volumes:
       - "repositories:/home/web_user/repositories"
+      - "./config.yml:/home/web_user/config.yml:ro"
     networks:
       redis:
       database:
@@ -73,7 +79,6 @@ services:
     secrets:
       - secret_key
     depends_on:
-      - submission-runner
       - database
       - redis
     restart: unless-stopped
@@ -92,6 +97,9 @@ services:
     image: postgres
     volumes:
       - "database-data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: aisoc
+      POSTGRES_PASSWORD: aisoc
     networks:
       database:
         aliases:
@@ -100,12 +108,6 @@ services:
     init: true
   adminer:
     image: adminer
-    networks:
-      - database
-    depends_on:
-      - database
-    restart: unless-stopped
-    init: true
 
 networks:
   redis:
