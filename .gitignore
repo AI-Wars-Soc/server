@@ -1,9 +1,16 @@
 secret.txt
+config.yml
+debug_config.yml
+
 matchmaker
 submission-runner
 web-api
 web-app
 web-server
+chess-ai
+common
+sandbox
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

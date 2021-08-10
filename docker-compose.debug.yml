@@ -28,8 +28,6 @@ services:
     volumes:
       - "./web-api/app:/home/web_user/app"
   adminer:
-    networks:
-      - database
     depends_on:
       - database
     restart: unless-stopped

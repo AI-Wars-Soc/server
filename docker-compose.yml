@@ -108,6 +108,8 @@ services:
     init: true
   adminer:
     image: adminer
+    networks:
+      - database
 
 networks:
   redis:
