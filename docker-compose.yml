@@ -98,8 +98,8 @@ services:
     volumes:
       - "database-data:/var/lib/postgresql/data"
     environment:
-      POSTGRES_USER: aisoc
-      POSTGRES_PASSWORD: aisoc
+      POSTGRES_USER: ${AIWARSOC_DB_USERNAME}
+      POSTGRES_PASSWORD: ${AIWARSOC_DB_PASSWORD}
     networks:
       database:
         aliases:
