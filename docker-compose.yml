@@ -53,7 +53,7 @@ services:
       web-api:
       web-app:
     ports:
-      - 80:80
+      - ${AIWARSOC_PORT}:80
     restart: unless-stopped
     init: true
   web-app:
