@@ -41,7 +41,7 @@ then
 		fi
 	done
 
-	(cd "$SCRIPT_DIR/web-app" || exit; ./build-debug.sh)
+	(cd "$SCRIPT_DIR/web-app" || exit; chmod +x ./build-debug.sh; ./build-debug.sh)
 	
 	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" build
 else
