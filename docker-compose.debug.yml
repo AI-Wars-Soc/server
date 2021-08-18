@@ -7,6 +7,8 @@ services:
       - "./submission-runner/runner:/home/subrunner/runner"
       - "./submission-runner/sandbox:/home/subrunner/sandbox"
       - "./submission-runner/shared:/home/subrunner/shared"
+    ports:
+      - 8080:8080
   matchmaker:
     build: ./matchmaker
     image: aiwarssoc/matchmaker:debug

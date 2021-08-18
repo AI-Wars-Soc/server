@@ -11,7 +11,8 @@ services:
         aliases:
           - docker
     environment:
-      - "DOCKER_TLS_CERTDIR=/certs"
+      DOCKER_TLS_CERTDIR: "/certs"
+      TINI_SUBREAPER: "yes"
     restart: unless-stopped
     init: true
   submission-runner:
@@ -29,6 +30,7 @@ services:
       - secret_key
     environment:
       DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_TLS_CERTDIR: "/certs"
       DOCKER_CERT_PATH: "/certs/client"
       DOCKER_TLS_VERIFY: 1
     depends_on:
