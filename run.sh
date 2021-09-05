@@ -32,30 +32,35 @@ if $debug
 then
 	docker_file_attr='debug'
 	
-	repos=( "matchmaker" "web-api" "web-app" "web-server" "submission-runner" "common" "sandbox" "chess-ai" )
+	repos=( "matchmaker" "web-api" "web-app" "web-server" "submission-runner" "common" "sandbox" )
 	for n in "${repos[@]}"
 	do
 		if [ ! -d ./"$n" ]
 		then
-			git clone https://github.com/AI-Wars-Soc/"$n"
+			git clone https://github.com/AI-Wars-Soc/"$n" || exit
+			
+			if $pull
+			then
+				(cd "$SCRIPT_DIR/$n" || exit; git fetch; git pull) || exit
+			fi
 		fi
 	done
 
-	(cd "$SCRIPT_DIR/web-app" || exit; chmod +x ./build-debug.sh; ./build-debug.sh)
+	(cd "$SCRIPT_DIR/web-app" || exit; chmod +x ./build-debug.sh; ./build-debug.sh) || exit
 	
-	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" build
+	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" build --progress plain || exit
 else
 	docker_file_attr='release'
 fi
 
 if $pull
 then
-	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" pull
+	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" pull || exit
 fi
+
+docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" up -d
 
 if $reload
 then
 	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" restart
-else
-	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" up -d
 fi

@@ -40,9 +40,10 @@ score_turbulence: The coefficient in the ELO formula. Default value: 0.5
 admin_emails: The emails of the people that are admins. This list only takes effect when a user logs in for the first time, so you can't promote or demote people without deleting their account too. Default value: []
 gamemode:
   id: chess
+  default_submission: The code that the users are given by default. Valid options can be found in web-api/default_submissions
   options:
     chess960: true
-    turn_time: 10
+    turn_time: The turn timer for the AIs when they are played against each other
     player_turn_time: The turn timer for playing the AIs on the website, because people need more time than AIs apparently. 
 front_end:
   server_name: The domain people connect to
