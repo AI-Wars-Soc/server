@@ -38,11 +38,11 @@ then
 		if [ ! -d ./"$n" ]
 		then
 			git clone https://github.com/AI-Wars-Soc/"$n" || exit
-			
-			if $pull
-			then
-				(cd "$SCRIPT_DIR/$n" || exit; git fetch; git pull) || exit
-			fi
+		fi
+		
+		if $pull
+		then
+			(cd "$SCRIPT_DIR/$n" || exit; git fetch; git pull) || exit
 		fi
 	done
 
