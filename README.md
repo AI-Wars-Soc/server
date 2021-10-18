@@ -122,4 +122,6 @@ Web Socket Requests ─────┼──► │ (Reverse proxy) │ ◄─�
                          │ └─────────────────────────┘                                                        │
                          └────────────────────────────────────────────────────────────────────────────────────┘
 ```
+(For an automatically generated up to date version of the above diagram see [here](https://jenkins.joeoc.dev/job/AIWarsSoc/job/server/job/main/lastSuccessfulBuild/artifact/architecture-alt.png))
 
+The names of the above containers are the names of the repositories within this github group. For information about each, look in their respective README's
