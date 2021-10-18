@@ -48,7 +48,7 @@ then
 
 	(cd "$SCRIPT_DIR/web-app" || exit; chmod +x ./build-debug.sh; ./build-debug.sh) || exit
 	
-	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" build --progress plain || exit
+	docker-compose -f docker-compose.yml -f "docker-compose.${docker_file_attr}.yml" build --pull --progress plain || exit
 else
 	docker_file_attr='release'
 fi
