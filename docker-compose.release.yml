@@ -1,1 +1,8 @@
 version: "3.7"
+services:
+  web-server:
+    volumes:
+      - "/dev/zero:/var/log/nginx/debug.log"
+  web-app:
+    volumes:
+      - "/dev/zero:/var/log/nginx/debug.log"

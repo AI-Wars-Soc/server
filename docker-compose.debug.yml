@@ -19,11 +19,13 @@ services:
     image: aiwarssoc/web-server:debug
     volumes:
       - "./web-server/serve:/usr/share/nginx/html"
+      - "./logs/web-server/debug.log:/var/log/nginx/debug.log"
   web-app:
     build: web-app
     image: aiwarssoc/web-app:debug
     volumes:
       - "./web-app/app/dist:/usr/share/nginx/html:ro"
+      - "./logs/web-app/debug.log:/var/log/nginx/debug.log"
   web-api:
     build: ./web-api
     image: aiwarssoc/web-api:debug

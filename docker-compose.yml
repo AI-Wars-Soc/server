@@ -51,6 +51,8 @@ services:
     init: true
   web-server:
     image: aiwarssoc/web-server
+    volumes:
+      - "./logs/web-server/error.log:/var/log/nginx/error.log"
     networks:
       web-api:
       web-app:
@@ -60,6 +62,8 @@ services:
     init: true
   web-app:
     image: aiwarssoc/web-app
+    volumes:
+      - "./logs/web-app/error.log:/var/log/nginx/error.log"
     networks:
       web-app:
         aliases:

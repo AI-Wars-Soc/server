@@ -11,6 +11,8 @@ chess-ai
 common
 sandbox
 
+logs
+
 .idea
 
 # Byte-compiled / optimized / DLL files
